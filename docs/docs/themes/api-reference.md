@@ -66,9 +66,17 @@ exports.createPages = async ({ graphql, actions }, themeOptions) => {
 }
 ```
 
+## Using Components from Themes
+
+You can import files from a Gatsby Theme into your project. For example, if you're using `gatsby-theme-tomato`, which has a `Layout` component located at `src/components/layout.js`, you can import it into your poject like this:
+
+```js
+import Layout from "gatsby-theme-tomato/src/components/Layout"
+```
+
 ## Component Shadowing
 
-Gatsby Themes allow you to customize any file in a theme's `src` directory by following a file naming convention.
+Gatsby Themes also allows you to customize any file in a theme's `src` directory by following a file naming convention.
 If you're using `gatsby-theme-tomato` which uses a `ProfileCard` component located at `src/components/profile-card.js` you can override the component by creating `src/gatsby-theme-tomato/components/profile-card.js`. If you want to see what props are passed you can do so by putting the props into a `pre` tag:
 
 ```js:title=src/gatsby-theme-tomato/components/profile-card.js
@@ -86,43 +94,5 @@ and then configure it:
 ```js:title=gatsby-config.js
 module.exports = {
   __experimentalThemes: ["gatsby-theme-blog"],
-}
-```
-
-## Add theme transpilation
-
-**Note**: This is only needed temporarily. Themes will automatically be transpiled in later versions.
-
-Since your theme will be installed, it will end up in `node_modules` which Gatsby doesn't transpile by default.
-This is something you can achieve with `gatsby-plugin-compile-es6-packages`.
-
-You will need to install the package:
-
-```shell
-npm install --save gatsby-plugin-compile-es6-packages
-```
-
-And then add it to your plugins list:
-
-```js:title=gatsby-config.js
-const path = require("path")
-
-module.exports = {
-  plugins: [
-    {
-      resolve: "gatsby-plugin-page-creator",
-      options: {
-        path: path.join(__dirname, "src", "pages"),
-      },
-    },
-    {
-      resolve: "gatsby-plugin-compile-es6-packages",
-      options: {
-        // replace with the name of your theme
-        // highlight-next-line
-        modules: ["gatsby-theme-developer"],
-      },
-    },
-  ],
 }
 ```
